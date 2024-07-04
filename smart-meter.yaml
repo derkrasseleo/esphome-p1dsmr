@@ -1,0 +1,112 @@
+esphome:
+  name: smart-meter
+  friendly_name: smart-meter
+
+esp8266:
+  board: d1_mini
+
+# Enable logging
+logger:
+  baud_rate: 0
+  # hardware_uart: UART0_SWAP
+  level: VERBOSE # VERY_VERBOSE # DEBUG
+  logs:
+    homeassistant.components.dsmr: info
+    # DSMR telegram parser library
+    dsmr_parser: debug
+    # And in case of a custom component to override the default dsmr integration:
+    custom_components.dsmr: info
+
+uart:
+  id: uart_smart_meter
+  rx_pin: 
+    number: RX # D7
+    inverted: true
+  baud_rate: 115200 # 9600
+  # data_bits: 8
+  # parity: NONE #doesn't make a difference
+  # stop_bits: 1
+  # rx_buffer_size: 3000
+  debug:
+    direction: RX
+    # dummy_receiver: true
+    # after:
+    #   delimiter: "\r\n"
+    # sequence:
+    #   - lambda: UARTDebug::log_string(direction, bytes);
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "HPXVvrfejEIRNN9peuwqKk7o399RLaIo/U2ariAX3To="
+
+ota:
+  - platform: esphome
+    password: "af528ad48112c9d8a37b7e8d7901de61"
+
+web_server:
+  port: 80
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Smart-Meter Fallback Hotspot"
+    password: "Otb2c3rfDUkr"
+
+captive_portal:
+
+dsmr:
+  uart_id: uart_smart_meter
+  decryption_key: !secret decryption_key_GUEK
+  # max_telegram_length: 3000
+  request_interval: 10s
+  # crc_check: true
+  # receive_timeout: 5000ms
+
+sensor:
+  - platform: wifi_signal
+    name: "wifi signal"
+    update_interval: 10s
+  - platform: dsmr
+    # energy_delivered_lux:
+    #   name: "Energy Consumed total_increasing"
+    #   state_class: total_increasing
+    # energy_returned_lux:
+    #   name: "Energy Returned Lux"
+    energy_delivered_tariff1:
+      name: Energy Delivered Tariff 1
+      state_class: total_increasing
+      accuracy_decimals: 3
+    energy_delivered_tariff2:
+      name: Energy Delivered Tariff 2
+      state_class: total_increasing
+      accuracy_decimals: 3
+    energy_returned_tariff1:
+      name: Energy Returned Tariff 1
+      accuracy_decimals: 3
+    energy_returned_tariff2:
+      name: Energy Returned Tariff 2
+      accuracy_decimals: 3
+    power_delivered:
+      name: Power Consumed
+      accuracy_decimals: 3
+    power_returned:
+      name: Power Returned
+      accuracy_decimals: 3
+
+text_sensor:
+  - platform: dsmr
+    identification:
+      name: "DSMR Identification"
+    timestamp:
+      name: "DSMR Timestamp"
+    electricity_tariff:
+      name: "DSMR Tarif"
+
+# external_components:
+#    # equivalent shorthand for GitHub
+#   - source: github://Herbycheck/esphome@dsmr-unit-fix
+#     components: [ dsmr ]
