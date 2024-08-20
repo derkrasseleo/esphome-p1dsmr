@@ -13,6 +13,11 @@ My esphome configuration and documentation for using the P1 DSMR connection of a
 - The data request pin is always held high by connecting it to the 5V pin so the smart meter always sends data.
 - The data pin is simply connected to the RX pin of the esp. Data GND is also (like 5V -) connected to the esp's GND pin.
 
+## Findings
+
+- The port has to be activated on the online portal of the provider, which takes a few weeks.
+- The GAK key is not needed for decoding the datagrams.
+
 ## Helpful documentation and inspiration
 - https://www.e-netze.at/downloads-data/pdf.aspx?pdf=EN_Update%20Kundenschnittstelle%20Smart%20Meter%20(03_2024)_WEB_RGB.pdf
 - https://www.michaelreitbauer.at/kundenschnittstelle-der-osterreichischen-smart-meter/
