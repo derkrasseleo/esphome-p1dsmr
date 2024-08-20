@@ -1,12 +1,17 @@
 # esphome-p1dsmr
-My esphome configuration and documentation for using the P1 DSMR connection of a Sagecom T210-D-r Smart Meter which is used by Energie Steiermark
+My esphome configuration and documentation for using the P1 DSMR connection of a Sagecom T210-D-r Smart Meter which is used by Energie Steiermark (E-Netze).
 
-The smartmeter I am using:
+- The smartmeter I am using:
+
 ![IMG_20230531_093754 jpg_compressed](https://github.com/derkrasseleo/esphome-p1dsmr/assets/16163571/d76c8964-b554-4c3a-a7e5-ddf8aa13acba)
 
-I used a RJ-12 cable and connected it like this to the D1 Mini (ESP8266):
+- I used a RJ-12 cable and connected it like this to the D1 Mini (ESP8266):
 
-![rj12-connection](https://github.com/derkrasseleo/esphome-p1dsmr/assets/16163571/5b6cf54d-09ae-4528-9e22-7849cc8bad81)
+![rj12-connection](https://github.com/user-attachments/assets/8e9a1a01-f0db-4ed7-bfa0-275c05d4c700)
+
+- Power is supplied over the RJ12 connection by the smart meter.
+- The data request pin is always held high by connecting it to the 5V pin so the smart meter always sends data.
+- The data pin is simply connected to the RX pin of the esp. Data GND is also (like 5V -) connected to the esp's GND pin.
 
 ## Helpful documentation and inspiration
 - https://www.e-netze.at/downloads-data/pdf.aspx?pdf=EN_Update%20Kundenschnittstelle%20Smart%20Meter%20(03_2024)_WEB_RGB.pdf
